@@ -1,0 +1,19 @@
+name: Build Base Image
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build base image
+      run: |
+        cd server-infra/linux/.docker
+        id=$(git rev-parse master)
+        docker build . --tag docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${id:0:12}
+        docker login -u franziskuskiefer -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+        docker push docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${id:0:12}
