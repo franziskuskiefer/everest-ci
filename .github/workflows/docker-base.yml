@@ -15,4 +15,4 @@ jobs:
         cd server-infra/linux/.docker
         docker build . --tag docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${GITHUB_SHA:0:12}
         docker login -u franziskuskiefer -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
-        docker push docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${id:0:12}
+        docker push docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${GITHUB_SHA:0:12}
