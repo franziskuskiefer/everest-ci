@@ -14,7 +14,15 @@ jobs:
       run: |
         cd server-infra/linux/.docker
         docker build . --tag docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${GITHUB_SHA:0:12}
-    - name: Push image
+    - name: Push image (Github)
+      # This currently fails. Also see:
+      # https://github.community/t5/GitHub-Actions/Push-large-docker-image-to-Github-Package-failed/td-p/38446
       run: |
         docker login -u franziskuskiefer -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
         docker push docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${GITHUB_SHA:0:12}
+    - name: Push image (Docker Hub)
+      run: |
+        docker tag docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${GITHUB_SHA:0:12} franziskus/project-everest:${GITHUB_SHA:0:12}
+        docker login -u franziskus -p ${{ secrets. DOCKERHUB_TOKEN }}
+        docker push franziskus/project-everest:${GITHUB_SHA:0:12}
+
