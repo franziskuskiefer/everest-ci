@@ -10,15 +10,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Publish Image
-      uses: elgohr/Publish-Docker-Github-Action@master
+    - name: Pull Image
       run: |
         docker pull franziskus/project-everest:6d1f11480981
-        with:
-          name: franziskuskiefer/everest-ci/everest-ci-linux:6d1f11480981
-          username: franziskuskiefer
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
+    - name: Publish Image
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: franziskuskiefer/everest-ci/everest-ci-linux:6d1f11480981
+        username: franziskuskiefer
+        password: ${{ secrets.GITHUB_TOKEN }}
+        registry: docker.pkg.github.com
     #- name: Build base image
     #  run: |
     #    cd server-infra/linux/.docker
