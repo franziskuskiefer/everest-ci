@@ -13,6 +13,7 @@ jobs:
     - name: Pull Image
       run: |
         docker pull franziskus/project-everest:6d1f11480981
+        docker tag franziskus/project-everest:6d1f11480981 docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:6d1f11480981
     - name: Publish Image
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
