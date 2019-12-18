@@ -10,19 +10,28 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build base image
+    - name: Publish Image
+      uses: elgohr/Publish-Docker-Github-Action@master
       run: |
-        cd server-infra/linux/.docker
-        docker build . --tag docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${GITHUB_SHA:0:12}
+        docker pull franziskus/project-everest:6d1f11480981
+        with:
+          name: franziskuskiefer/everest-ci/everest-ci-linux:6d1f11480981
+          username: franziskuskiefer
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: docker.pkg.github.com
+    #- name: Build base image
+    #  run: |
+    #    cd server-infra/linux/.docker
+    #    docker build . --tag docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${GITHUB_SHA:0:12}
     #- name: Push image (Github)
-      # This currently fails. Also see:
-      # https://github.community/t5/GitHub-Actions/Push-large-docker-image-to-Github-Package-failed/td-p/38446
+    #    This currently fails. Also see:
+    #    https://github.community/t5/GitHub-Actions/Push-large-docker-image-to-Github-Package-failed/td-p/38446
     #  run: |
     #    docker login -u franziskuskiefer -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
     #    docker push docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${GITHUB_SHA:0:12}
-    - name: Push image (Docker Hub)
-      run: |
-        docker tag docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${GITHUB_SHA:0:12} franziskus/project-everest:${GITHUB_SHA:0:12}
-        docker login -u franziskus -p ${{ secrets. DOCKERHUB_TOKEN }}
-        docker push franziskus/project-everest:${GITHUB_SHA:0:12}
+    #- name: Push image (Docker Hub)
+    #  run: |
+    #    docker tag docker.pkg.github.com/franziskuskiefer/everest-ci/everest-ci-linux:${GITHUB_SHA:0:12} franziskus/project-everest:${GITHUB_SHA:0:12}
+    #    docker login -u franziskus -p ${{ secrets. DOCKERHUB_TOKEN }}
+    #    docker push franziskus/project-everest:${GITHUB_SHA:0:12}
 
